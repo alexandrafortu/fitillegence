@@ -3,7 +3,7 @@
 > A capstone project demonstrating Generative AI, prompt engineering, and full-stack development.
 > Built by **Fortu Alexandra Andrea S.**
 
-FITillegence is a localhost web application that delivers personalized workout plans, diet recommendations, and wellness advice using **Google Gemini AI**. Its standout feature is a **prompt-engineering comparison dashboard** that lets users see how four different prompting strategies (zero-shot, few-shot, chain-of-thought, role-based) change the AI's output in real time.
+FITillegence is a localhost web application that delivers personalized workout plans, diet recommendations, and wellness advice using **Groq's Llama 3.3 70B** model. Its standout feature is a **prompt-engineering comparison dashboard** that lets users see how four different prompting strategies (zero-shot, few-shot, chain-of-thought, role-based) change the AI's output in real time.
 
 ---
 
@@ -14,7 +14,7 @@ FITillegence is a localhost web application that delivers personalized workout p
 - 🔬 **Side-by-side strategy comparison** — see how prompting changes output
 - 🎨 Bold gradient UI with smooth animations
 - ⚡ No database required — runs entirely on localhost
-- 🔌 Powered by Google Gemini (free tier)
+- 🚀 Powered by Groq (free tier, 300+ tokens/sec inference)
 
 ---
 
@@ -23,8 +23,8 @@ FITillegence is a localhost web application that delivers personalized workout p
 | Layer    | Tech                         |
 |----------|------------------------------|
 | Frontend | HTML5, CSS3, vanilla JavaScript |
-| Backend  | Python 3.10+, Flask, Flask-CORS |
-| AI       | Google Gemini API (`google-generativeai`) |
+| Backend  | Python 3.12, Flask, Flask-CORS |
+| AI       | Groq API + Llama 3.3 70B (`groq` Python SDK) |
 | Tooling  | VS Code, Git, GitHub         |
 
 ---
@@ -34,7 +34,7 @@ FITillegence is a localhost web application that delivers personalized workout p
 ```
 FITillegence/
 ├── backend/
-│   ├── app.py              # Flask server, routes, Gemini integration
+│   ├── app.py              # Flask server, routes, Groq integration
 │   ├── prompts.py          # 4 prompt engineering strategies
 │   ├── requirements.txt    # Python dependencies
 │   └── .env.example        # Template for your API key
@@ -44,7 +44,8 @@ FITillegence/
 │   └── js/app.js           # Form handling + API calls
 ├── docs/
 │   ├── PROJECT_DESIGN.md            # Project Design Document deliverable
-│   └── PROMPT_ENGINEERING.md        # Prompt strategies deliverable
+│   ├── PROMPT_ENGINEERING.md        # Prompt strategies deliverable
+│   └── DEMO_SCRIPT.md               # Presentation script
 ├── .gitignore
 └── README.md
 ```
@@ -55,21 +56,21 @@ FITillegence/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<your-username>/FITillegence.git
+git clone https://github.com/alexandrafortu/FITillegence.git
 cd FITillegence
 ```
 
-### 2. Get a free Gemini API key
-Visit https://aistudio.google.com/app/apikey and create a key.
+### 2. Get a free Groq API key
+Visit https://console.groq.com/keys and create a key (no credit card required).
 
 ### 3. Set up the backend
 ```bash
 cd backend
-python3 -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Open .env in any editor and paste your Gemini API key
+# Open .env in any editor and paste your Groq API key
 ```
 
 ### 4. Run the server
@@ -128,7 +129,7 @@ See `docs/PROMPT_ENGINEERING.md` for full prompt text and analysis.
 | Functional Localhost Application | The repo itself — runs on `localhost:5001` |
 | Prompt Engineering Strategies Document | `docs/PROMPT_ENGINEERING.md` |
 | Code Repository | This GitHub repo |
-| Project Presentation/Demo | (separate slide deck) |
+| Project Presentation/Demo | See `docs/DEMO_SCRIPT.md` |
 
 ---
 

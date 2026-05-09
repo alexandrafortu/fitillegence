@@ -21,7 +21,7 @@ Many individuals struggle to start and maintain a fitness routine because:
 
 1. Demonstrate practical use of Generative AI in the health & fitness domain.
 2. Build a full-stack web application using only local development tools.
-3. Integrate Google Gemini's API via Python.
+3. Integrate Groq's API (Llama 3.3 70B) via Python.
 4. Implement and evaluate **four prompt engineering strategies**.
 5. Deliver a responsive, polished UI that displays AI output clearly.
 
@@ -31,8 +31,8 @@ Many individuals struggle to start and maintain a fitness routine because:
 
 ```
 ┌──────────────────────┐         ┌─────────────────────┐         ┌──────────────────┐
-│   Frontend (Browser) │ ──API─► │  Backend (Flask)    │ ──HTTPS►│  Gemini API      │
-│  HTML / CSS / JS     │         │  Python 3.10+       │         │  (Google AI)     │
+│   Frontend (Browser) │ ──API─► │  Backend (Flask)    │ ──HTTPS►│  Groq API        │
+│  HTML / CSS / JS     │         │  Python 3.12        │         │  (Llama 3.3 70B) │
 │  - Form              │ ◄───────│  - Routes           │ ◄───────│                  │
 │  - Result renderer   │         │  - Prompt builder   │         │                  │
 │  - Compare dashboard │         │  - Validation       │         │                  │
@@ -53,8 +53,16 @@ Many individuals struggle to start and maintain a fitness routine because:
 |--------|--------|
 | **Flask** | Lightweight, minimal config, ideal for small-team capstone projects. Easier than FastAPI for first-time backend devs. |
 | **Vanilla JS** | No build step. Removes Node/npm complexity from the demo. The app stays fast and the codebase stays small. |
-| **Gemini (`gemini-1.5-flash`)** | Free tier is generous, response time is fast (3-8s), output quality is strong for this use case. Switching to `gemini-1.5-pro` is a one-line change. |
+| **Groq + Llama 3.3 70B** | Free tier with no credit card. Groq's LPU hardware delivers 300+ tokens/sec inference, making the demo feel instant (1–3 seconds per plan vs 5–15 with other providers). Llama 3.3 70B is open-source, frontier-class quality, and the Groq SDK is OpenAI-compatible — easy to swap in alternative providers later. |
 | **CSS variables + animations** | Maintainable theming + an attractive demo without needing a UI framework. |
+
+### Why Groq specifically?
+
+The project originally targeted Google Gemini, but during development Google deprecated `gemini-1.5-flash`, and the newer free-tier Gemini models faced stricter rate limits. Switching to Groq delivered three concrete wins:
+
+1. **Speed** — responses are 5–10× faster, dramatically improving demo experience.
+2. **Reliability** — no model deprecation surprises during development.
+3. **Open-source backbone** — Llama 3.3 70B is publicly documented and well-studied, which strengthens the prompt engineering analysis (the model's behavior is reproducible by anyone).
 
 ---
 
@@ -63,7 +71,7 @@ Many individuals struggle to start and maintain a fitness routine because:
 1. **Land on hero** → animated headline + CTA invites the user to build a plan.
 2. **Fill the form** → goal, body stats, equipment, dietary preference.
 3. **Choose strategy** OR **click Compare All**.
-4. **Loading spinner** appears while the backend calls Gemini.
+4. **Loading spinner** appears while the backend calls Groq.
 5. **Plan renders** in formatted cards (workout / diet / wellness sections).
 6. **Compare mode** shows 4 plans side-by-side for evaluation.
 
@@ -107,7 +115,7 @@ Validation happens server-side in `validate_user_input()` to catch missing field
 ## 8. Error Handling
 
 - Missing or invalid input → `400 Bad Request` with a clear `error` message.
-- Gemini API failure (rate limit, network, key invalid) → `500 Internal Server Error` with the underlying error.
+- Groq API failure (rate limit, network, key invalid) → `500 Internal Server Error` with the underlying error.
 - The frontend displays errors in a styled error card and prompts the user to check `.env`.
 
 ---
@@ -116,10 +124,11 @@ Validation happens server-side in `validate_user_input()` to catch missing field
 
 | Risk | Mitigation |
 |------|------------|
-| Gemini rate limits during demo | Use `gemini-1.5-flash` (higher RPM than pro). Add light request throttling if needed. |
+| Groq rate limits during demo | Llama 3.3 70B has generous free-tier limits. Comparison mode runs sequentially so it stays under per-minute caps. |
 | AI hallucinating unsafe advice | Every plan ends with a disclaimer. App is explicitly non-medical. |
 | API key leaking | Key is only stored in `.env`, which is `.gitignore`d. `.env.example` is committed instead. |
 | Plan format inconsistency | Each prompt enforces a strict Markdown header structure. Frontend handles minor variations. |
+| Provider deprecation (lesson learned from Gemini) | Groq's SDK is OpenAI-compatible — switching providers requires changing only the client initialization. |
 
 ---
 
@@ -128,8 +137,9 @@ Validation happens server-side in `validate_user_input()` to catch missing field
 - User accounts + plan history (would require a database)
 - Progress tracking & weekly check-ins
 - Voice input via Web Speech API
-- Streaming Gemini responses for instant feedback
+- Streaming Groq responses for instant feedback
 - Multi-language support
+- Provider toggle (Groq / Gemini / OpenAI) as an additional dimension of comparison
 
 ---
 
@@ -137,7 +147,7 @@ Validation happens server-side in `validate_user_input()` to catch missing field
 
 | Criterion | Weight | How FITillegence Addresses It |
 |-----------|--------|-------------------------------|
-| Functional App & AI Integration | 30% | Working Flask + Gemini app with two distinct endpoints. |
+| Functional App & AI Integration | 30% | Working Flask + Groq app with two distinct endpoints. |
 | Prompt Engineering Effectiveness | 25% | Four documented strategies + side-by-side comparison UI. |
 | Code Quality & Design | 20% | Modular code (`app.py` vs `prompts.py`), validation, error handling. |
 | Technical Documentation | 15% | This file + `PROMPT_ENGINEERING.md` + extensive README. |

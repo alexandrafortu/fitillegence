@@ -2,6 +2,7 @@
 
 **Author:** Fortu Alexandra Andrea S.
 **Worth:** 25% of capstone grade
+**Model used:** Groq + Llama 3.3 70B (`llama-3.3-70b-versatile`)
 
 This document explains the four prompt engineering strategies implemented in FITillegence, why each was chosen, the trade-offs between them, and how they were evaluated.
 
@@ -132,6 +133,13 @@ After reasoning, output the final plan in this format: ...
 - Surfaces the "why" behind recommendations — useful for trust and learning.
 - Forces the model to consider activity level and weight quantitatively.
 
+### Real example from live testing
+For a 23-year-old female, 96 kg, 170 cm, active, fat-loss goal, the Chain-of-Thought strategy produced:
+
+> "I first calculated her Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation, which yielded approximately 1984 calories. Considering her active lifestyle, I adjusted her BMR to estimate her Total Daily Energy Expenditure (TDEE) at around 2441 calories. For fat loss, I decided on a calorie deficit, aiming for a daily intake of 1941 calories. I also determined her optimal protein intake to be around 133 grams per day…"
+
+The Zero-Shot strategy, given the same input, produced a generic plan with no calculation shown — clearly demonstrating how CoT improves transparency and numerical grounding.
+
 ### Weaknesses
 - Longer responses → higher latency.
 - Reasoning text can clutter the output if not asked to summarize.
@@ -177,7 +185,7 @@ First-time users who need motivation and a friendly tone. Demos and presentation
 
 ## Comparative Evaluation
 
-I tested each strategy against three sample profiles (fat loss, muscle gain, beginner wellness). Findings:
+I tested each strategy against three sample profiles (fat loss, muscle gain, beginner wellness) using Llama 3.3 70B on Groq. Findings:
 
 | Dimension | Zero-Shot | Few-Shot | Chain-of-Thought | Role-Based |
 |-----------|-----------|----------|------------------|------------|
@@ -187,6 +195,8 @@ I tested each strategy against three sample profiles (fat loss, muscle gain, beg
 | Tone / engagement | 5/10 | 6/10 | 7/10 | **9/10** |
 | Speed | **10/10** | 7/10 | 6/10 | 8/10 |
 | Token cost | **Lowest** | High | High | Medium |
+
+> Note: with Groq's LPU-accelerated inference, even the slowest strategy (CoT) returns in under 5 seconds — making the comparison feature feasible during a live demo.
 
 ### Recommendation hierarchy
 
@@ -209,10 +219,11 @@ I tested each strategy against three sample profiles (fat loss, muscle gain, beg
 ## Key Lessons Learned
 
 1. **Persona prompts are surprisingly powerful** — adding a single persona instruction changed engagement quality more than any other tweak.
-2. **Asking the model to "show its work" improves math** — Chain-of-Thought consistently produced more reasonable calorie targets than Zero-Shot.
+2. **Asking the model to "show its work" improves math** — Chain-of-Thought consistently produced more reasonable calorie targets than Zero-Shot. In live testing, CoT correctly applied the Mifflin-St Jeor BMR equation; Zero-Shot rarely showed any calculation.
 3. **Few-shot anchoring is a double-edged sword** — getting structure for free, but the model leaks specifics from your example.
-4. **Format enforcement should be at the END of the prompt** — Gemini gives more weight to instructions placed close to the response generation point.
+4. **Format enforcement should be at the END of the prompt** — Llama 3.3 70B gives more weight to instructions placed close to the response generation point, similar to other LLMs.
 5. **Temperature matters** — at 0.7 (used here), outputs feel personalized; at 0.2, they feel robotic; at 1.0, they hallucinate exercises.
+6. **Provider choice affects iteration speed, not output quality** — Groq's 300+ tokens/sec inference made the development loop dramatically faster than slower providers, enabling more prompt experimentation in the same time.
 
 ---
 
@@ -220,5 +231,6 @@ I tested each strategy against three sample profiles (fat loss, muscle gain, beg
 
 - Brown et al., "Language Models are Few-Shot Learners" (GPT-3 paper) — origin of few-shot prompting.
 - Wei et al., "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models" — CoT prompting.
-- Google AI Studio Documentation — https://ai.google.dev/docs
+- Groq API Documentation — https://console.groq.com/docs
+- Meta Llama 3.3 Model Card — https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
 - Mifflin-St Jeor Equation — peer-reviewed BMR formula used by registered dietitians.
