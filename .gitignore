@@ -1,0 +1,30 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+
+# --- Secrets ---
+.env
+*.env
+!.env.example
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS (Mac) ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Logs ---
+*.log

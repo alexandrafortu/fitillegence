@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FITillegence 🏋️ — Your AI Fitness Companion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Animated background blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">🏋️</span>
+      <span class="logo-text">FIT<span class="accent">illegence</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#builder">Build Plan</a>
+      <a href="#about">About</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <div class="badge pulse">⚡ Powered by Groq + Llama 3.3 </div>
+      <h1 class="hero-title">
+        Your <span class="gradient-text">AI Fitness</span><br>
+        Companion is Here.
+      </h1>
+      <p class="hero-subtitle">
+        Personalized workouts, custom diet plans, and wellness coaching —
+        crafted in seconds by advanced AI. Compare prompt strategies in real time.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="scrollToBuilder()">
+          Build My Plan <span class="arrow">→</span>
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+          Learn More
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">4</div><div class="stat-label">AI Strategies</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Personalized</div></div>
+        <div class="stat"><div class="stat-num">0</div><div class="stat-label">Sign-ups</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">💪 Workouts</div>
+      <div class="floating-card card-2">🥗 Nutrition</div>
+      <div class="floating-card card-3">🧘 Wellness</div>
+      <div class="orb"></div>
+    </div>
+  </section>
+
+  <!-- ============ BUILDER ============ -->
+  <section id="builder" class="builder">
+    <div class="section-header">
+      <h2>Build Your <span class="gradient-text">Plan</span></h2>
+      <p>Tell us about yourself — we'll handle the rest.</p>
+    </div>
+
+    <form id="fitness-form" class="card form-card">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>🎯 Your Goal</label>
+          <select name="goal" required>
+            <option value="fat_loss">Fat Loss</option>
+            <option value="muscle_gain">Muscle Gain</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="endurance">Endurance</option>
+            <option value="general_wellness">General Wellness</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>⚡ Activity Level</label>
+          <select name="activity_level" required>
+            <option value="sedentary">Sedentary (desk job, no exercise)</option>
+            <option value="light">Light (1-3 days/week)</option>
+            <option value="moderate" selected>Moderate (3-5 days/week)</option>
+            <option value="active">Active (6-7 days/week)</option>
+            <option value="very_active">Very Active (athlete level)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>👤 Gender</label>
+          <select name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>🎂 Age</label>
+          <input type="number" name="age" min="10" max="100" value="25" required />
+        </div>
+
+        <div class="form-group">
+          <label>⚖️ Weight (kg)</label>
+          <input type="number" name="weight_kg" step="0.1" min="30" max="300" value="70" required />
+        </div>
+
+        <div class="form-group">
+          <label>📏 Height (cm)</label>
+          <input type="number" name="height_cm" step="0.1" min="100" max="250" value="170" required />
+        </div>
+
+        <div class="form-group">
+          <label>📅 Workout Days/Week</label>
+          <input type="number" name="workout_days" min="1" max="7" value="4" required />
+        </div>
+
+        <div class="form-group">
+          <label>🏠 Equipment</label>
+          <select name="equipment">
+            <option value="none (bodyweight only)">None (bodyweight only)</option>
+            <option value="basic home gym (dumbbells, bands)" selected>Basic home gym</option>
+            <option value="full gym access">Full gym access</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>🥗 Dietary Preference</label>
+          <select name="dietary_preference">
+            <option value="no preference" selected>No preference</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+            <option value="pescatarian">Pescatarian</option>
+            <option value="halal">Halal</option>
+            <option value="keto">Keto</option>
+          </select>
+        </div>
+
+        <div class="form-group form-group-full">
+          <label>🧠 Prompt Engineering Strategy</label>
+          <select name="strategy" id="strategy-select">
+            <option value="role_based" selected>Role-Based (Coach Alex)</option>
+            <option value="chain_of_thought">Chain-of-Thought</option>
+            <option value="few_shot">Few-Shot</option>
+            <option value="zero_shot">Zero-Shot</option>
+          </select>
+          <small id="strategy-desc" class="helper-text"></small>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-large" id="generate-btn">
+          ✨ Generate My Plan
+        </button>
+        <button type="button" class="btn btn-outline btn-large" id="compare-btn">
+          🔬 Compare All Strategies
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============ LOADING ============ -->
+  <div id="loading" class="loading hidden">
+    <div class="spinner"></div>
+    <p id="loading-text">Crafting your personalized plan...</p>
+    <small>This usually takes 5-15 seconds</small>
+  </div>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="results" class="results hidden">
+    <div class="section-header">
+      <h2>Your <span class="gradient-text">Plan</span></h2>
+      <p id="results-subtitle"></p>
+    </div>
+    <div id="results-content"></div>
+    <div class="form-actions">
+      <button class="btn btn-outline" onclick="resetView()">← Build Another</button>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="about">
+    <div class="section-header">
+      <h2>How <span class="gradient-text">It Works</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature card">
+        <div class="feature-icon">🎯</div>
+        <h3>1. Tell Us Your Goal</h3>
+        <p>Fill in your stats, goal, and equipment in seconds.</p>
+      </div>
+      <div class="feature card">
+        <div class="feature-icon">🧠</div>
+        <h3>2. Pick a Strategy</h3>
+        <p>Choose from 4 prompt engineering approaches — or compare them all.</p>
+      </div>
+      <div class="feature card">
+        <div class="feature-icon">⚡</div>
+        <h3>3. Get Your Plan</h3>
+        <p>Groq AI delivers a custom workout, diet, and wellness plan instantly.</p>
+      </div>
+      <div class="feature card">
+        <div class="feature-icon">🔬</div>
+        <h3>4. Compare & Learn</h3>
+        <p>See how different prompting strategies change AI output quality.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Built with 💪 by Fortu Alexandra Andrea • Capstone Project • Not medical advice</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
