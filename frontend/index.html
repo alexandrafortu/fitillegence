@@ -7,16 +7,12 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- Animated background blobs -->
-  <div class="bg-blobs" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
+  <!-- Particle background -->
+  <canvas id="particles" aria-hidden="true"></canvas>
 
   <!-- ============ NAVBAR ============ -->
   <nav class="navbar">
@@ -33,11 +29,15 @@
 
   <!-- ============ HERO ============ -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <div class="badge pulse">⚡ Powered by Groq + Llama 3.3 </div>
+    <div class="hero-content reveal">
+      <div class="badge pulse">⚡ Powered by Groq + Llama 3.3 70B</div>
       <h1 class="hero-title">
-        Your <span class="gradient-text">AI Fitness</span><br>
-        Companion is Here.
+        Your <span class="accent-text">AI Fitness</span><br>
+        Companion is <span class="word-flip">
+          <span>Here.</span>
+          <span>Smart.</span>
+          <span>Yours.</span>
+        </span>
       </h1>
       <p class="hero-subtitle">
         Personalized workouts, custom diet plans, and wellness coaching —
@@ -45,143 +45,300 @@
       </p>
       <div class="hero-cta">
         <button class="btn btn-primary" onclick="scrollToBuilder()">
-          Build My Plan <span class="arrow">→</span>
+          <span>Build My Plan</span>
+          <span class="arrow">→</span>
         </button>
         <button class="btn btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
           Learn More
         </button>
       </div>
       <div class="hero-stats">
-        <div class="stat"><div class="stat-num">4</div><div class="stat-label">AI Strategies</div></div>
-        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Personalized</div></div>
-        <div class="stat"><div class="stat-num">0</div><div class="stat-label">Sign-ups</div></div>
+        <div class="stat tilt-card">
+          <div class="stat-num" data-count="4">0</div>
+          <div class="stat-label">AI Strategies</div>
+        </div>
+        <div class="stat tilt-card">
+          <div class="stat-num" data-count="100" data-suffix="%">0</div>
+          <div class="stat-label">Personalized</div>
+        </div>
+        <div class="stat tilt-card">
+          <div class="stat-num" data-count="3" data-suffix="s">0</div>
+          <div class="stat-label">Avg Response</div>
+        </div>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="floating-card card-1">💪 Workouts</div>
-      <div class="floating-card card-2">🥗 Nutrition</div>
-      <div class="floating-card card-3">🧘 Wellness</div>
-      <div class="orb"></div>
+
+    <!-- ============ ORBITAL HERO VISUAL ============ -->
+    <div class="hero-visual reveal">
+      <div class="orbital-system">
+        <!-- Background glow -->
+        <div class="orbital-glow"></div>
+
+        <!-- Decorative orbit rings -->
+        <div class="orbit-ring ring-outer"></div>
+        <div class="orbit-ring ring-middle"></div>
+        <div class="orbit-ring ring-inner"></div>
+
+        <!-- Center figure (silhouette) -->
+        <div class="center-figure">
+          <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="70" r="55" fill="url(#centerGlow)"/>
+            <defs>
+              <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ff6b1a" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#ff6b1a" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="figGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff8a3d"/>
+                <stop offset="100%" stop-color="#ff6b1a"/>
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="22" r="11" fill="url(#figGrad)"/>
+            <rect x="46" y="32" width="8" height="6" fill="url(#figGrad)"/>
+            <path d="M 30 40 Q 30 38 32 38 L 68 38 Q 70 38 70 40 L 64 80 Q 64 82 62 82 L 38 82 Q 36 82 36 80 Z" fill="url(#figGrad)"/>
+            <path d="M 30 42 Q 22 50 20 65 Q 19 72 22 72 Q 25 72 26 65 Q 28 55 34 50 Z" fill="url(#figGrad)"/>
+            <path d="M 70 42 Q 78 50 80 65 Q 81 72 78 72 Q 75 72 74 65 Q 72 55 66 50 Z" fill="url(#figGrad)"/>
+            <path d="M 38 82 L 38 120 Q 38 122 40 122 L 46 122 Q 48 122 48 120 L 48 82 Z" fill="url(#figGrad)"/>
+            <path d="M 52 82 L 52 120 Q 52 122 54 122 L 60 122 Q 62 122 62 120 L 62 82 Z" fill="url(#figGrad)"/>
+          </svg>
+        </div>
+
+        <!-- Orbiting icons - 8 total, arranged at 90° intervals on 2 rings -->
+        <div class="orbit-track track-1">
+          <div class="orbit-icon"><span title="Workout">💪</span></div>
+          <div class="orbit-icon"><span title="Nutrition">🥗</span></div>
+          <div class="orbit-icon"><span title="Wellness">🧘</span></div>
+          <div class="orbit-icon"><span title="Sleep">😴</span></div>
+        </div>
+
+        <div class="orbit-track track-2">
+          <div class="orbit-icon"><span title="Hydration">💧</span></div>
+          <div class="orbit-icon"><span title="Heart">❤️</span></div>
+          <div class="orbit-icon"><span title="Calories">🔥</span></div>
+          <div class="orbit-icon"><span title="Progress">📊</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ============ BUILDER ============ -->
   <section id="builder" class="builder">
-    <div class="section-header">
-      <h2>Build Your <span class="gradient-text">Plan</span></h2>
-      <p>Tell us about yourself — we'll handle the rest.</p>
+    <div class="section-header reveal">
+      <div class="eyebrow">✨ Build your plan</div>
+      <h2>Tell us about <span class="accent-text">you</span></h2>
+      <p>4 quick steps. No sign-up. Free forever.</p>
     </div>
 
-    <form id="fitness-form" class="card form-card">
-      <div class="form-grid">
+    <div class="progress-wrap reveal">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="progress-step active" data-step="1"><span class="step-num">1</span><span class="step-label">Goal</span></div>
+        <div class="progress-step" data-step="2"><span class="step-num">2</span><span class="step-label">You</span></div>
+        <div class="progress-step" data-step="3"><span class="step-num">3</span><span class="step-label">Setup</span></div>
+        <div class="progress-step" data-step="4"><span class="step-num">4</span><span class="step-label">Strategy</span></div>
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label>🎯 Your Goal</label>
-          <select name="goal" required>
-            <option value="fat_loss">Fat Loss</option>
-            <option value="muscle_gain">Muscle Gain</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="endurance">Endurance</option>
-            <option value="general_wellness">General Wellness</option>
-          </select>
+    <form id="fitness-form" class="card form-card reveal" novalidate>
+
+      <!-- STEP 1: GOAL -->
+      <div class="form-step active" data-step="1">
+        <h3 class="step-heading">🎯 What's your main goal?</h3>
+        <p class="step-sub">Pick the one that fits you best — you can always change it later.</p>
+        <div class="goal-grid">
+          <label class="goal-card">
+            <input type="radio" name="goal" value="fat_loss" checked />
+            <div class="goal-icon">🔥</div>
+            <div class="goal-name">Fat Loss</div>
+            <div class="goal-desc">Cut body fat, get lean</div>
+          </label>
+          <label class="goal-card">
+            <input type="radio" name="goal" value="muscle_gain" />
+            <div class="goal-icon">💪</div>
+            <div class="goal-name">Muscle Gain</div>
+            <div class="goal-desc">Build size and strength</div>
+          </label>
+          <label class="goal-card">
+            <input type="radio" name="goal" value="maintenance" />
+            <div class="goal-icon">⚖️</div>
+            <div class="goal-name">Maintenance</div>
+            <div class="goal-desc">Stay where you are</div>
+          </label>
+          <label class="goal-card">
+            <input type="radio" name="goal" value="endurance" />
+            <div class="goal-icon">🏃</div>
+            <div class="goal-name">Endurance</div>
+            <div class="goal-desc">Run further, last longer</div>
+          </label>
+          <label class="goal-card">
+            <input type="radio" name="goal" value="general_wellness" />
+            <div class="goal-icon">🧘</div>
+            <div class="goal-name">Wellness</div>
+            <div class="goal-desc">Feel good, move daily</div>
+          </label>
         </div>
-
-        <div class="form-group">
-          <label>⚡ Activity Level</label>
-          <select name="activity_level" required>
-            <option value="sedentary">Sedentary (desk job, no exercise)</option>
-            <option value="light">Light (1-3 days/week)</option>
-            <option value="moderate" selected>Moderate (3-5 days/week)</option>
-            <option value="active">Active (6-7 days/week)</option>
-            <option value="very_active">Very Active (athlete level)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>👤 Gender</label>
-          <select name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>🎂 Age</label>
-          <input type="number" name="age" min="10" max="100" value="25" required />
-        </div>
-
-        <div class="form-group">
-          <label>⚖️ Weight (kg)</label>
-          <input type="number" name="weight_kg" step="0.1" min="30" max="300" value="70" required />
-        </div>
-
-        <div class="form-group">
-          <label>📏 Height (cm)</label>
-          <input type="number" name="height_cm" step="0.1" min="100" max="250" value="170" required />
-        </div>
-
-        <div class="form-group">
-          <label>📅 Workout Days/Week</label>
-          <input type="number" name="workout_days" min="1" max="7" value="4" required />
-        </div>
-
-        <div class="form-group">
-          <label>🏠 Equipment</label>
-          <select name="equipment">
-            <option value="none (bodyweight only)">None (bodyweight only)</option>
-            <option value="basic home gym (dumbbells, bands)" selected>Basic home gym</option>
-            <option value="full gym access">Full gym access</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>🥗 Dietary Preference</label>
-          <select name="dietary_preference">
-            <option value="no preference" selected>No preference</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
-            <option value="pescatarian">Pescatarian</option>
-            <option value="halal">Halal</option>
-            <option value="keto">Keto</option>
-          </select>
-        </div>
-
-        <div class="form-group form-group-full">
-          <label>🧠 Prompt Engineering Strategy</label>
-          <select name="strategy" id="strategy-select">
-            <option value="role_based" selected>Role-Based (Coach Alex)</option>
-            <option value="chain_of_thought">Chain-of-Thought</option>
-            <option value="few_shot">Few-Shot</option>
-            <option value="zero_shot">Zero-Shot</option>
-          </select>
-          <small id="strategy-desc" class="helper-text"></small>
-        </div>
-
       </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary btn-large" id="generate-btn">
-          ✨ Generate My Plan
-        </button>
-        <button type="button" class="btn btn-outline btn-large" id="compare-btn">
-          🔬 Compare All Strategies
-        </button>
+      <!-- STEP 2: PERSONAL -->
+      <div class="form-step" data-step="2">
+        <h3 class="step-heading">👤 Your stats</h3>
+        <p class="step-sub">We use these to calculate your calorie & macro needs.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gender</label>
+            <div class="seg">
+              <input type="radio" name="gender" value="female" id="g-f" checked /><label for="g-f">Female</label>
+              <input type="radio" name="gender" value="male" id="g-m" /><label for="g-m">Male</label>
+              <input type="radio" name="gender" value="other" id="g-o" /><label for="g-o">Other</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-row">
+            <label>🎂 Age <span class="slider-value" id="age-val">25</span></label>
+            <input type="range" name="age" id="age" min="14" max="80" value="25" />
+            <div class="slider-marks"><span>14</span><span>80</span></div>
+          </div>
+          <div class="slider-row">
+            <label>⚖️ Weight <span class="slider-value"><span id="weight-val">70</span> kg</span></label>
+            <input type="range" name="weight_kg" id="weight" min="40" max="200" value="70" step="0.5" />
+            <div class="slider-marks"><span>40</span><span>200</span></div>
+          </div>
+          <div class="slider-row">
+            <label>📏 Height <span class="slider-value"><span id="height-val">170</span> cm</span></label>
+            <input type="range" name="height_cm" id="height" min="140" max="220" value="170" />
+            <div class="slider-marks"><span>140</span><span>220</span></div>
+          </div>
+        </div>
+
+        <div class="bmi-card" id="bmi-card">
+          <div class="bmi-label">Live BMI estimate</div>
+          <div class="bmi-value" id="bmi-value">—</div>
+          <div class="bmi-status" id="bmi-status">Adjust sliders to see</div>
+        </div>
+      </div>
+
+      <!-- STEP 3: SETUP -->
+      <div class="form-step" data-step="3">
+        <h3 class="step-heading">🏠 Your setup</h3>
+        <p class="step-sub">What do you have access to?</p>
+
+        <div class="form-group">
+          <label>⚡ Activity level</label>
+          <div class="seg seg-vertical">
+            <input type="radio" name="activity_level" value="sedentary" id="a-1" /><label for="a-1">Sedentary <small>(desk job)</small></label>
+            <input type="radio" name="activity_level" value="light" id="a-2" /><label for="a-2">Light <small>(1–3 days/wk)</small></label>
+            <input type="radio" name="activity_level" value="moderate" id="a-3" checked /><label for="a-3">Moderate <small>(3–5 days/wk)</small></label>
+            <input type="radio" name="activity_level" value="active" id="a-4" /><label for="a-4">Active <small>(6–7 days/wk)</small></label>
+            <input type="radio" name="activity_level" value="very_active" id="a-5" /><label for="a-5">Very active <small>(athlete)</small></label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>📅 Workout days/week <span class="slider-value" id="days-val">4</span></label>
+            <input type="range" name="workout_days" id="days" min="1" max="7" value="4" />
+            <div class="slider-marks"><span>1</span><span>7</span></div>
+          </div>
+        </div>
+
+        <div class="form-row form-row-2">
+          <div class="form-group">
+            <label>🏋️ Equipment</label>
+            <select name="equipment">
+              <option value="none (bodyweight only)">Bodyweight only</option>
+              <option value="basic home gym (dumbbells, bands)" selected>Basic home gym</option>
+              <option value="full gym access">Full gym access</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>🥗 Diet</label>
+            <select name="dietary_preference">
+              <option value="no preference" selected>No preference</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="pescatarian">Pescatarian</option>
+              <option value="halal">Halal</option>
+              <option value="keto">Keto</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: STRATEGY -->
+      <div class="form-step" data-step="4">
+        <h3 class="step-heading">🧠 Pick your AI strategy</h3>
+        <p class="step-sub">Each one prompts the AI differently. Choose one — or compare them all.</p>
+        <div class="strategy-grid">
+          <label class="strategy-card">
+            <input type="radio" name="strategy" value="role_based" checked />
+            <div class="strat-icon">🎭</div>
+            <div class="strat-name">Role-Based</div>
+            <div class="strat-desc">"Coach Alex" — a 15-yr trainer persona. Warm, motivating advice.</div>
+            <div class="strat-tag">Best for first-timers</div>
+          </label>
+          <label class="strategy-card">
+            <input type="radio" name="strategy" value="chain_of_thought" />
+            <div class="strat-icon">🧮</div>
+            <div class="strat-name">Chain-of-Thought</div>
+            <div class="strat-desc">AI reasons step-by-step: BMR → TDEE → macros. Best calorie math.</div>
+            <div class="strat-tag">Most accurate</div>
+          </label>
+          <label class="strategy-card">
+            <input type="radio" name="strategy" value="few_shot" />
+            <div class="strat-icon">📋</div>
+            <div class="strat-name">Few-Shot</div>
+            <div class="strat-desc">Shows AI a worked example to anchor format and depth.</div>
+            <div class="strat-tag">Most consistent</div>
+          </label>
+          <label class="strategy-card">
+            <input type="radio" name="strategy" value="zero_shot" />
+            <div class="strat-icon">⚡</div>
+            <div class="strat-name">Zero-Shot</div>
+            <div class="strat-desc">Direct instruction, no examples. Lean baseline.</div>
+            <div class="strat-tag">Fastest</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div class="form-nav">
+        <button type="button" class="btn btn-ghost" id="prev-btn" disabled>← Back</button>
+        <div class="form-nav-right">
+          <button type="button" class="btn btn-outline" id="next-btn">Next →</button>
+          <button type="submit" class="btn btn-primary btn-large hidden" id="generate-btn">
+            ✨ Generate My Plan
+          </button>
+          <button type="button" class="btn btn-outline btn-large hidden" id="compare-btn">
+            🔬 Compare All 4
+          </button>
+        </div>
       </div>
     </form>
   </section>
 
   <!-- ============ LOADING ============ -->
   <div id="loading" class="loading hidden">
-    <div class="spinner"></div>
+    <div class="loading-dumbbell">
+      <div class="dumbbell-bar"></div>
+      <div class="dumbbell-weight left"></div>
+      <div class="dumbbell-weight right"></div>
+    </div>
     <p id="loading-text">Crafting your personalized plan...</p>
-    <small>This usually takes 5-15 seconds</small>
+    <div class="loading-msgs">
+      <small id="loading-tip">💡 Tip: Try comparing all 4 strategies for the full picture</small>
+    </div>
   </div>
 
   <!-- ============ RESULTS ============ -->
   <section id="results" class="results hidden">
     <div class="section-header">
-      <h2>Your <span class="gradient-text">Plan</span></h2>
+      <div class="eyebrow">🎉 Your plan is ready</div>
+      <h2>Your <span class="accent-text">Plan</span></h2>
       <p id="results-subtitle"></p>
     </div>
     <div id="results-content"></div>
@@ -192,28 +349,33 @@
 
   <!-- ============ ABOUT ============ -->
   <section id="about" class="about">
-    <div class="section-header">
-      <h2>How <span class="gradient-text">It Works</span></h2>
+    <div class="section-header reveal">
+      <div class="eyebrow">⚙️ How it works</div>
+      <h2>Four steps to a <span class="accent-text">smarter plan</span></h2>
     </div>
     <div class="features-grid">
-      <div class="feature card">
+      <div class="feature card tilt-card reveal">
         <div class="feature-icon">🎯</div>
-        <h3>1. Tell Us Your Goal</h3>
+        <div class="feature-num">01</div>
+        <h3>Tell us your goal</h3>
         <p>Fill in your stats, goal, and equipment in seconds.</p>
       </div>
-      <div class="feature card">
+      <div class="feature card tilt-card reveal">
         <div class="feature-icon">🧠</div>
-        <h3>2. Pick a Strategy</h3>
+        <div class="feature-num">02</div>
+        <h3>Pick a strategy</h3>
         <p>Choose from 4 prompt engineering approaches — or compare them all.</p>
       </div>
-      <div class="feature card">
+      <div class="feature card tilt-card reveal">
         <div class="feature-icon">⚡</div>
-        <h3>3. Get Your Plan</h3>
+        <div class="feature-num">03</div>
+        <h3>Get your plan</h3>
         <p>Groq AI delivers a custom workout, diet, and wellness plan instantly.</p>
       </div>
-      <div class="feature card">
+      <div class="feature card tilt-card reveal">
         <div class="feature-icon">🔬</div>
-        <h3>4. Compare & Learn</h3>
+        <div class="feature-num">04</div>
+        <h3>Compare & learn</h3>
         <p>See how different prompting strategies change AI output quality.</p>
       </div>
     </div>
@@ -222,6 +384,8 @@
   <footer class="footer">
     <p>Built with 💪 by Fortu Alexandra Andrea • Capstone Project • Not medical advice</p>
   </footer>
+
+  <div id="confetti" aria-hidden="true"></div>
 
   <script src="js/app.js"></script>
 </body>
